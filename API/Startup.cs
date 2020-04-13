@@ -1,3 +1,5 @@
+using System;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,7 +25,13 @@ namespace API
         {
             services.AddControllers();
             ConfigureServicesForDbContext(services);
+            ConfigureServicesForRepositories(services);
 
+        }
+
+        private void ConfigureServicesForRepositories(IServiceCollection services)
+        {
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
 
         private void ConfigureServicesForDbContext(IServiceCollection services)
