@@ -1,15 +1,9 @@
-using System.Reflection;
-using System;
-using AutoMapper;
-using Core.Interfaces;
-using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using API.Helpers;
+using API.Middleware;
+using API.Extensions;
 
 namespace API
 {
@@ -20,52 +14,29 @@ namespace API
         public Startup(IConfiguration config)
         {
             _config = config;
-
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            ConfigureServicesForDbContext(services);
-            ConfigureServicesForRepositories(services);
-            ConfigureServicesForAutomapper(services);
+            services.AddServices(_config);
         }
-
-        private void ConfigureServicesForAutomapper(IServiceCollection services)
-        {
-            services.AddAutoMapper(typeof(MappingProfiles));
-        }
-
-        private void ConfigureServicesForRepositories(IServiceCollection services)
-        {
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
-            services.AddScoped<IProductRepository, ProductRepository>();
-        }
-
-        private void ConfigureServicesForDbContext(IServiceCollection services)
-        {
-            services.AddDbContext<StoreContext>(opt =>
-            {
-                opt.UseSqlite(_config.GetConnectionString("DefaultConnection"));
-            });
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            // If the user ask for a non existing endpoints then 
+            // pass 404 to "/errors/404" and get back our ApiResponse format
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseStaticFiles();
+
             app.UseAuthorization();
+
+            app.UseSwaggerDoc();
 
             app.UseEndpoints(endpoints =>
             {
