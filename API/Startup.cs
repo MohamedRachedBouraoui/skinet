@@ -1,4 +1,6 @@
+using System.Reflection;
 using System;
+using AutoMapper;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using API.Helpers;
 
 namespace API
 {
@@ -26,11 +29,18 @@ namespace API
             services.AddControllers();
             ConfigureServicesForDbContext(services);
             ConfigureServicesForRepositories(services);
+            ConfigureServicesForAutomapper(services);
+        }
 
+        private void ConfigureServicesForAutomapper(IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(MappingProfiles));
         }
 
         private void ConfigureServicesForRepositories(IServiceCollection services)
         {
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
             services.AddScoped<IProductRepository, ProductRepository>();
         }
 
@@ -50,10 +60,11 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
 
-            //   app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseStaticFiles();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
