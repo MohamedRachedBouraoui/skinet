@@ -26,7 +26,20 @@ namespace API.Extensions
             ConfigureServicesForApiBehaviorOptions(services); // MUST BE AFTER  services.AddControllers();
 
             services.AddSwaggerDoc();
+            ConfigureServicesForCORS(services);
+
             return services;
+        }
+
+        private static void ConfigureServicesForCORS(IServiceCollection services)
+        {
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                });
+            });
         }
 
         /// <summary>
