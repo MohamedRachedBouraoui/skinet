@@ -1,0 +1,10 @@
+<span *ngIf="totalCount > 0"
+  >Showing
+  <strong>{{ pagingHeaderPart1 }} - {{ pagingHeaderPart2 }}</strong>
+  of
+  <strong>{{ totalCount }}</strong>
+  Items</span
+>
+<span *ngIf="totalCount === 0"
+  ><strong>No Results for this filter</strong></span
+>

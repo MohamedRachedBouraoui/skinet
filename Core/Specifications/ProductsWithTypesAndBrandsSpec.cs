@@ -13,7 +13,7 @@ namespace Core.Specifications
 
         public ProductsWithTypesAndBrandsSpec(ProductSpecParams productParams)
         : base(p =>
-        (string.IsNullOrWhiteSpace(productParams.Search) || p.Name.ToLower().Contains(productParams.Search))// Search by Name
+        (string.IsNullOrWhiteSpace(productParams.SearchBy) || p.Name.ToLower().Contains(productParams.SearchBy))// Search by Name
         &&
         (productParams.BrandId.HasValue == false || p.ProductBrandId == productParams.BrandId) // Search By BrandId
         &&
@@ -22,17 +22,17 @@ namespace Core.Specifications
             AddIncludes(p => p.ProductBrand);
             AddIncludes(p => p.ProductType);
             AddOrderBy(p => p.Name); //by default
-            AddOrderByPrice(productParams.Sort);
+            AddOrderByPrice(productParams.SortBy);
             ApplyPaging(productParams.PageIndex, productParams.PageSize);
         }
 
-        private void AddOrderByPrice(string sort)
+        private void AddOrderByPrice(string SortBy)
         {
-            if (string.IsNullOrWhiteSpace(sort))
+            if (string.IsNullOrWhiteSpace(SortBy))
             {
                 return;
             }
-            switch (sort.ToLower())
+            switch (SortBy.ToLower())
             {
                 case "priceasc":
                     AddOrderBy(p => p.Price);

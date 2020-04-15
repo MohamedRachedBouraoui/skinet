@@ -7,7 +7,7 @@ namespace Core.Specifications
 
         public ProductsSpecForCount(ProductSpecParams productParams)
         : base(p =>
-        (string.IsNullOrWhiteSpace(productParams.Search) || p.Name.ToLower().Contains(productParams.Search))// Search by Name
+        (string.IsNullOrWhiteSpace(productParams.SearchBy) || p.Name.ToLower().Contains(productParams.SearchBy))// Search by Name
         &&
         (productParams.BrandId.HasValue == false || p.ProductBrandId == productParams.BrandId) // Search By BrandId
         &&

@@ -1,0 +1,24 @@
+{
+  "files.exclude": {
+    "client\\node_modules": true,
+    "client\\e2e": true,
+    "client\\src\\main.ts": true,
+    "client\\src\\environments": true,
+    "client\\src\\favicon.ico": true,
+    "client\\src\\polyfills.ts": true,
+    "client\\src\\test.ts": true,
+    "client\\ssl": true,
+    "client\\.editorconfig": true,
+    "client\\.gitignore": true,
+    "client\\browserslist": true,
+    "client\\karma.conf.js": true,
+    "client\\package-lock.json": true,
+    "client\\README.md": true,
+    "client\\tsconfig.app.json": true,
+    "client\\tslint.json": true,
+    "client\\tsconfig.spec.json": true,
+    "client\\tsconfig.json": true,
+    "skinet.sln": true,
+    ".gitignore": true
+  }
+}

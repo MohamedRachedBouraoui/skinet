@@ -13,15 +13,15 @@ namespace Core.Specifications
             set { _pageSize = value > MaxPageSize ? MaxPageSize : value; }
         }
 
-        public string Sort { get; set; }
+        public string SortBy { get; set; }
         public int? BrandId { get; set; }
         public int? TypeId { get; set; }
 
-        private string _search;
-        public string Search
+        private string _searchBy;
+        public string SearchBy
         {
-            get { return _search; }
-            set { _search = value.ToLower(); }
+            get { return _searchBy; }
+            set { _searchBy = value.ToLower(); }
         }
 
 
