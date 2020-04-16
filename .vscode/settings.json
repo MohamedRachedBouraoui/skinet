@@ -3,7 +3,6 @@
     "client\\node_modules": true,
     "client\\e2e": true,
     "client\\src\\main.ts": true,
-    "client\\src\\environments": true,
     "client\\src\\favicon.ico": true,
     "client\\src\\polyfills.ts": true,
     "client\\src\\test.ts": true,

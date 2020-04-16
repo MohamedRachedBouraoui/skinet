@@ -34,8 +34,9 @@ namespace API.Middleware
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = internalServerErrorCode;
 
+                string details = ex.StackTrace.ToString().Replace(" at ", "\nat ");
                 var response = _env.IsDevelopment() ?
-                new ApiException(internalServerErrorCode, ex.Message, ex.StackTrace.ToString()) // For dev Mode
+                new ApiException(internalServerErrorCode, ex.Message, details) // For dev Mode
                 : new ApiException(internalServerErrorCode); // For Prod Mode
 
                 var json = JsonSerializer.Serialize(response, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });

@@ -59,6 +59,11 @@ namespace API.Controllers
         {
             var spec = new ProductsWithTypesAndBrandsSpec(id);
             Product productFromRepo = await _productRep.GetBySpecAsync(spec);
+            if (productFromRepo == null)
+            {
+                return NotFound(new ApiResponse(404));
+            }
+
             var productToReturn = _mapper.Map<ProductToReturnDto>(productFromRepo);
 
 
