@@ -13,7 +13,10 @@ import { IPagination } from '../shared/models/iPagination';
 })
 export class ShopComponent implements OnInit {
 
-  @ViewChild('searchBy', { static: true }) searchBy: ElementRef;
+  // We are using 'static = false' beacause we're surrounding our element
+  // with *ngif in the html
+
+  @ViewChild('searchBy', { static: false }) searchBy: ElementRef;
 
   products: IProduct[];
   brands: IBrand[];

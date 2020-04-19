@@ -1,6 +1,5 @@
 {
   "files.exclude": {
-    "client\\node_modules": true,
     "client\\e2e": true,
     "client\\src\\main.ts": true,
     "client\\src\\favicon.ico": true,
@@ -18,6 +17,7 @@
     "client\\tsconfig.spec.json": true,
     "client\\tsconfig.json": true,
     "skinet.sln": true,
-    ".gitignore": true
+    ".gitignore": true,
+    "client\\dist\\client": true
   }
 }
