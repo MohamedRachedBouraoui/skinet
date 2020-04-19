@@ -10,6 +10,7 @@ using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace API.Extensions
 {
@@ -27,8 +28,18 @@ namespace API.Extensions
 
             services.AddSwaggerDoc();
             ConfigureServicesForCORS(services);
+            ConfigureServicesForRedis(services);
 
             return services;
+        }
+
+        private static void ConfigureServicesForRedis(IServiceCollection services)
+        {
+            services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
+                var conf = ConfigurationOptions.Parse(_config.GetConnectionString("Redis"), true);
+                return ConnectionMultiplexer.Connect(conf);
+            });
         }
 
         private static void ConfigureServicesForCORS(IServiceCollection services)
@@ -82,6 +93,8 @@ namespace API.Extensions
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddScoped<IProductRepository, ProductRepository>();
+
+            services.AddScoped<IBasketRepository, BasketRepository>();
         }
 
         private static void ConfigureServicesForDbContext(IServiceCollection services)
