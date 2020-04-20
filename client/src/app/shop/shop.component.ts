@@ -5,6 +5,7 @@ import { IBrand } from '../shared/models/iBrand';
 import { IProductType } from '../shared/models/iProductType';
 import { ShopParams } from '../shared/models/shopParams';
 import { IPagination } from '../shared/models/iPagination';
+import { BasketService } from '../basket/basket.service';
 
 @Component({
   selector: 'app-shop',
@@ -36,7 +37,10 @@ export class ShopComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
 
+
   }
+
+
   getProductTypes() {
     this.shopService.getProductTypes().subscribe(productTypes => {
       // will result on an array of 'ProductTYpe' with an extra fictive ProductTYpe (id=0) in first place

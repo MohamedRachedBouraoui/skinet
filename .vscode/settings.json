@@ -18,6 +18,7 @@
     "client\\tsconfig.json": true,
     "skinet.sln": true,
     ".gitignore": true,
-    "client\\dist\\client": true
+    "client\\dist": true,
+    "client\\node_modules": true
   }
 }

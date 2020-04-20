@@ -3,3 +3,6 @@ obj
 bin
 appsettings.json
 *.db
+dump.rdb
+.vscode/.easyRedis.redis
+.vscode/.easyRedis.redis
