@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
+using Infrastructure.Identity;
+using Infrastructure.Services;
 
 namespace API.Extensions
 {
@@ -21,16 +23,30 @@ namespace API.Extensions
         {
             _config = config;
             services.AddControllers();
+
             ConfigureServicesForDbContext(services);
             ConfigureServicesForRepositories(services);
+
             ConfigureServicesForAutomapper(services);
+
             ConfigureServicesForApiBehaviorOptions(services); // MUST BE AFTER  services.AddControllers();
 
             services.AddSwaggerDoc();
+
             ConfigureServicesForCORS(services);
+
             ConfigureServicesForRedis(services);
 
+            services.AddIdentityServices(_config);
+
+            AddTokenCreatorServices(services);
+
             return services;
+        }
+
+        private static void AddTokenCreatorServices(IServiceCollection services)
+        {
+            services.AddScoped<ITokenService, TokenService>();
         }
 
         private static void ConfigureServicesForRedis(IServiceCollection services)
@@ -103,6 +119,12 @@ namespace API.Extensions
             {
                 opt.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
+
+            //Identity DB
+            services.AddDbContext<AppIdentityDbContext>(opt =>
+           {
+               opt.UseSqlite(_config.GetConnectionString("IdentityConnection"));
+           });
         }
 
     }

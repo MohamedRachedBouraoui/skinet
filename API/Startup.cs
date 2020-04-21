@@ -19,6 +19,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddServices(_config);
+
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -36,6 +37,7 @@ namespace API
 
             app.UseCors("CorsPolicy"); //Must be before "UseAuthorization"
 
+            app.UseAuthentication();//Must be Before "UseAuthorization"
             app.UseAuthorization();
 
             app.UseSwaggerDoc();
