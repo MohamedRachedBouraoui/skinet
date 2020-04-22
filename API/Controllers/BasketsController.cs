@@ -14,11 +14,11 @@ using API.Helpers;
 namespace API.Controllers
 {
 
-    public class BasketsController : SkinetBaseController
+    public class BasketController : SkinetBaseController
     {
         private readonly IBasketRepository _basketRepository;
 
-        public BasketsController(IBasketRepository basketRepository)
+        public BasketController(IBasketRepository basketRepository)
         {
             _basketRepository = basketRepository;
         }
@@ -31,9 +31,9 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasketAsync(CustomerBasket basket)
+        public async Task<ActionResult<CustomerBasket>> UpdateBasketAsync(CustomerBasketDto basket)
         {
-            var updatedBasket = await _basketRepository.UpdateBasketAsync(basket);
+            var updatedBasket = await _basketRepository.UpdateBasketAsync(Mapper.Map<CustomerBasket>(basket));
             return Ok(updatedBasket);
         }
 

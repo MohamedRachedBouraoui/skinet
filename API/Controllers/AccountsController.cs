@@ -1,3 +1,4 @@
+using System.IO;
 using System.Security.Claims;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,13 +15,13 @@ using AutoMapper;
 namespace API.Controllers
 {
 
-    public class AccountsController : SkinetBaseController
+    public class AccountController : SkinetBaseController
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
-        public AccountsController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager
         , ITokenService tokenService,
         IMapper mapper)
         {
@@ -104,6 +105,12 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if (CheckEmailExists(registerDto.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(
+                    new ApiValidationErrorResponse { Errors = new[] { "Email address is in use." } }
+                    );
+            }
             var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,

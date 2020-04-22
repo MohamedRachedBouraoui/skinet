@@ -7,13 +7,13 @@ redis_mode:standalone
 os:Windows  
 arch_bits:64
 multiplexing_api:WinSock_IOCP
-process_id:9348
-run_id:a5a816ed4b942c9ae427fe907d49f03f3a08b72d
+process_id:9928
+run_id:64124db42f16018e0e33d810d7d26c816e3b9b13
 tcp_port:6379
-uptime_in_seconds:2805
+uptime_in_seconds:3516
 uptime_in_days:0
 hz:10
-lru_clock:10339776
+lru_clock:10518707
 config_file:
 
 # Clients
@@ -23,20 +23,20 @@ client_biggest_input_buf:0
 blocked_clients:0
 
 # Memory
-used_memory:735008
-used_memory_human:717.78K
-used_memory_rss:697360
-used_memory_peak:771056
-used_memory_peak_human:752.98K
+used_memory:736632
+used_memory_human:719.37K
+used_memory_rss:678112
+used_memory_peak:752200
+used_memory_peak_human:734.57K
 used_memory_lua:36864
-mem_fragmentation_ratio:0.95
+mem_fragmentation_ratio:0.92
 mem_allocator:jemalloc-3.6.0
 
 # Persistence
 loading:0
-rdb_changes_since_last_save:0
+rdb_changes_since_last_save:1
 rdb_bgsave_in_progress:0
-rdb_last_save_time:1587395275
+rdb_last_save_time:1587573495
 rdb_last_bgsave_status:ok
 rdb_last_bgsave_time_sec:-1
 rdb_current_bgsave_time_sec:-1
@@ -49,11 +49,11 @@ aof_last_bgrewrite_status:ok
 aof_last_write_status:ok
 
 # Stats
-total_connections_received:4
-total_commands_processed:21
+total_connections_received:3
+total_commands_processed:18
 instantaneous_ops_per_sec:0
-total_net_input_bytes:726
-total_net_output_bytes:8241
+total_net_input_bytes:697
+total_net_output_bytes:4422
 instantaneous_input_kbps:0.00
 instantaneous_output_kbps:0.00
 rejected_connections:0
@@ -62,8 +62,8 @@ sync_partial_ok:0
 sync_partial_err:0
 expired_keys:0
 evicted_keys:0
-keyspace_hits:0
-keyspace_misses:3
+keyspace_hits:1
+keyspace_misses:2
 pubsub_channels:1
 pubsub_patterns:0
 latest_fork_usec:0
@@ -79,8 +79,8 @@ repl_backlog_first_byte_offset:0
 repl_backlog_histlen:0
 
 # CPU
-used_cpu_sys:0.06
-used_cpu_user:0.11
+used_cpu_sys:0.11
+used_cpu_user:0.08
 used_cpu_sys_children:0.00
 used_cpu_user_children:0.00
 
@@ -88,3 +88,4 @@ used_cpu_user_children:0.00
 cluster_enabled:0
 
 # Keyspace
+db0:keys=2,expires=2,avg_ttl=2518179190
