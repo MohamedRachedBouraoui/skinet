@@ -9,15 +9,17 @@ import { HttpClient } from '@angular/common/http';
 })
 export class TestErrorComponent implements OnInit {
   baseUrl = environment.apiUrl;
+  productApiUrl = this.baseUrl + 'product/';
+  buggyApiUrl = this.baseUrl + 'buggy/';
+
   validationErrors: any;
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
-
   get404Error() {
-    this.http.get(this.baseUrl + 'products/42').subscribe(response => {
+    this.http.get(this.buggyApiUrl + '42').subscribe(response => {
 
       console.log(response);
     }, error => {
@@ -26,7 +28,7 @@ export class TestErrorComponent implements OnInit {
   }
 
   get500Error() {
-    this.http.get(this.baseUrl + 'buggy/servererror').subscribe(response => {
+    this.http.get(this.buggyApiUrl + 'servererror').subscribe(response => {
       console.log(response);
     }, error => {
       console.log(error);
@@ -34,7 +36,7 @@ export class TestErrorComponent implements OnInit {
   }
 
   get400Error() {
-    this.http.get(this.baseUrl + 'buggy/badrequest').subscribe(response => {
+    this.http.get(this.buggyApiUrl + 'badrequest').subscribe(response => {
       console.log(response);
     }, error => {
       console.log(error);
@@ -42,7 +44,7 @@ export class TestErrorComponent implements OnInit {
   }
 
   get400ValidationError() {
-    this.http.get(this.baseUrl + 'products/fortytwo').subscribe(response => {
+    this.http.get(this.productApiUrl + 'fortytwo').subscribe(response => {
       console.log(response);
     }, error => {
       console.log(error);

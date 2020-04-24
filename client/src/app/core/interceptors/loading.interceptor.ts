@@ -13,7 +13,13 @@ export class LoadingInterceptor implements HttpInterceptor {
 
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.busyService.busy();
+
+    // Turn off the loading indicator when cheking for email
+
+    if (req.url.includes('emailexists') === false) {
+
+      this.busyService.busy();
+    }
     return next.handle(req)
       .pipe(
         delay(1000), // just to demonstrate the loading indicator

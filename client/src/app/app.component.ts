@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BasketService } from './basket/basket.service';
+import { AccountService } from './account/account.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,19 @@ export class AppComponent implements OnInit {
   title = 'SkiNet';
 
 
-  constructor(private basketService: BasketService) { }
+  constructor(private basketService: BasketService, private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.getBasket();
+    this.loadCurrentUser();
+  }
+
+  loadCurrentUser() {
+    this.accountService.loadCurrentUser().subscribe(() => {
+      console.log('user loaded with success.');
+    }, error => {
+      console.log("Logged Output: : AppComponent -> loadCurrentUser -> error", error);
+    });
   }
 
   getBasket() {

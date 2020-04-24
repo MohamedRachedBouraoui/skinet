@@ -14,14 +14,14 @@ using API.Helpers;
 namespace API.Controllers
 {
 
-    public class ProductsController : SkinetBaseController
+    public class ProductController : SkinetBaseController
     {
         private readonly IMapper _mapper;
         private readonly IGenericRepository<Product> _productRep;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
         private readonly IGenericRepository<ProductType> _productTypeRepo;
 
-        public ProductsController(IMapper mapper, IGenericRepository<Product> productRepo
+        public ProductController(IMapper mapper, IGenericRepository<Product> productRepo
         , IGenericRepository<ProductBrand> productBrandRepo
         , IGenericRepository<ProductType> productTypeRepo
         )

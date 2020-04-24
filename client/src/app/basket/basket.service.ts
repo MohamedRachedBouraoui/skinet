@@ -11,7 +11,7 @@ import { IProduct } from '../shared/models/iProduct';
 })
 export class BasketService {
 
-  baseUrl = environment.apiUrl + 'baskets';
+  baseUrl = environment.apiUrl + 'basket';
   private basketSource = new BehaviorSubject<IBasket>(null);
   basket$ = this.basketSource.asObservable();
 
