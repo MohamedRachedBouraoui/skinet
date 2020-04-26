@@ -5,6 +5,7 @@ import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { IBasket, IBasketItem, Basket, IBasketTotals } from '../shared/models/basket';
 import { map } from 'rxjs/operators';
 import { IProduct } from '../shared/models/iProduct';
+import { IDeliveryMethod } from '../shared/models/iDeliveryMethod';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,15 @@ export class BasketService {
   private basketTotalSource = new BehaviorSubject<IBasketTotals>(null);
   basketTotal$ = this.basketTotalSource.asObservable();
 
+  shipping = 0;
+
 
   constructor(private httpClient: HttpClient) { }
+
+  setShippingPrice(deliveryMethod: IDeliveryMethod) {
+    this.shipping = deliveryMethod.price;
+    this.calculateTotals();
+  }
 
   getBasket(id: string): Observable<void> {
     // We will subscribe to this Observable in the Html in async mode
@@ -102,11 +110,15 @@ export class BasketService {
     }
   }
 
+  deleteLocalBasket(basketId: string) {
+    this.basketSource.next(null);
+    this.basketTotalSource.next(null);
+    localStorage.removeItem('basket_id');
+  }
+
   deleteBasket(basket: IBasket) {
     return this.httpClient.delete(this.baseUrl + '?id=' + basket.id).subscribe(() => {
-      this.basketSource.next(null);
-      this.basketTotalSource.next(null);
-      localStorage.removeItem('basket_id');
+      this.deleteLocalBasket(basket.id);
     }, error => {
       console.log('Logged Output: : BasketService -> deleteBasket -> error', error);
 
@@ -138,13 +150,13 @@ export class BasketService {
   private calculateTotals() {
     const basket = this.getCurrentBasketValue();
 
-    const shipping = 0;
     const subTotals = basket.items.reduce((a, b) => (b.price * b.quantity) + a, 0);
-    const total = subTotals + shipping;
+    const total = subTotals + this.shipping;
     this.basketTotalSource.next({
-      shipping,
+      shipping: this.shipping,
       subTotals,
       total
     });
   }
+
 }

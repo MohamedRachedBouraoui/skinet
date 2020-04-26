@@ -1,0 +1,61 @@
+<div class="mt-4" [formGroup]="checkoutForm">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Shipping address</h4>
+    <button
+      class="btn btn-outline-success"
+      (click)="saveUserAddress()"
+      [disabled]="
+        this.addressForm.valid === false || this.addressForm.dirty === false
+      "
+    >
+      Save as default address
+    </button>
+  </div>
+  <div class="row" formGroupName="addressForm">
+    <div class="form-group col-6">
+      <app-text-input
+        formControlName="firstName"
+        [label]="'First Name'"
+      ></app-text-input>
+    </div>
+    <div class="form-group col-6">
+      <app-text-input
+        formControlName="lastName"
+        [label]="'Last Name'"
+      ></app-text-input>
+    </div>
+    <div class="form-group col-6">
+      <app-text-input
+        formControlName="street"
+        [label]="'Street'"
+      ></app-text-input>
+    </div>
+    <div class="form-group col-6">
+      <app-text-input formControlName="city" [label]="'City'"></app-text-input>
+    </div>
+    <div class="form-group col-6">
+      <app-text-input
+        formControlName="state"
+        [label]="'State'"
+      ></app-text-input>
+    </div>
+    <div class="form-group col-6">
+      <app-text-input
+        formControlName="zipcode"
+        [label]="'Zip Code'"
+      ></app-text-input>
+    </div>
+  </div>
+</div>
+
+<!-- BACK TO BASKET -->
+<div
+  class="float-none d-flex justify-content-between flex-column flex-lg-row mb-5"
+>
+  <button class="btn btn-outline-primary" [routerLink]="['/basket']">
+    <i class="fa fa-angle-left"></i> Back to Basket
+  </button>
+  <button class="btn btn-primary" cdkStepperNext>
+    Go to delivery <i class="fa fa-angle-right"></i>
+  </button>
+</div>
