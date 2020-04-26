@@ -17,7 +17,7 @@ namespace API.Helpers
         {
             if (string.IsNullOrWhiteSpace(source.PictureUrl) == false)
             {
-                return source.PictureUrl = _config["ApiUrl"] + source.PictureUrl;
+                return _config["ApiUrl"] + source.PictureUrl;
             }
             return null;
         }

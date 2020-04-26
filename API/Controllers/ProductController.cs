@@ -36,7 +36,7 @@ namespace API.Controllers
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
         {
             var countSpec = new ProductsSpecForCount(productParams);
-            var totalItemsInRepo = await _productRep.CountBySpecAsync(countSpec);
+            var totalItemsInRepo = await _productRep.CountAsync(countSpec);
 
             var spec = new ProductsWithTypesAndBrandsSpec(productParams);
             IReadOnlyList<Product> productsFromRepo = await _productRep.ListBySpecAsync(spec);

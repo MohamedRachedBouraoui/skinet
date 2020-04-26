@@ -5,6 +5,9 @@ using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Debug;
 using Microsoft.Extensions.Logging;
+using Core.Entities.OrderAggregate;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data
 {
@@ -25,6 +28,9 @@ namespace Infrastructure.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,11 +56,26 @@ namespace Infrastructure.Data
 
             foreach (var entityType in entities)
             {
-                var properties = entityType.ClrType.GetProperties().Where(pr => pr.PropertyType == typeof(decimal));
-                foreach (var prop in properties)
-                {
-                    modelBuilder.Entity(entityType.Name).Property(prop.Name).HasConversion<double>();
-                }
+                ConfigureSqliteForDecimals(modelBuilder, entityType);
+                ConfigureSqliteForDateTimeOffset(modelBuilder, entityType);
+            }
+        }
+
+        private void ConfigureSqliteForDateTimeOffset(ModelBuilder modelBuilder, IMutableEntityType entityType)
+        {
+            var dateTimeOffsetProperties = entityType.ClrType.GetProperties().Where(pr => pr.PropertyType == typeof(DateTimeOffset));
+            foreach (var prop in dateTimeOffsetProperties)
+            {
+                modelBuilder.Entity(entityType.Name).Property(prop.Name).HasConversion(new DateTimeOffsetToBinaryConverter());
+            }
+        }
+
+        private static void ConfigureSqliteForDecimals(ModelBuilder modelBuilder, IMutableEntityType entityType)
+        {
+            var decimalProperties = entityType.ClrType.GetProperties().Where(pr => pr.PropertyType == typeof(decimal));
+            foreach (var prop in decimalProperties)
+            {
+                modelBuilder.Entity(entityType.Name).Property(prop.Name).HasConversion<double>();
             }
         }
     }

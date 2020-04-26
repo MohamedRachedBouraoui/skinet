@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Data
@@ -19,11 +21,24 @@ namespace Infrastructure.Data
                 await SeedBrands(storeContext);
                 await SeedProductTypes(storeContext);
                 await SeedProducts(storeContext);
+                await SeedDeliveryMethods(storeContext);
             }
             catch (System.Exception ex)
             {
                 var logger = loggerFactory.CreateLogger<StoreContextSeeder>();
                 logger.LogError(ex, "An Error occured during seedings");
+            }
+        }
+
+        private static async Task SeedDeliveryMethods(StoreContext storeContext)
+        {
+            if (storeContext.DeliveryMethods.Any() == false)
+            {
+                var dmData = File.ReadAllText(seedingDataSrc + "delivery.json");
+                var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(dmData);
+
+                storeContext.DeliveryMethods.AddRange(methods);
+                await storeContext.SaveChangesAsync();
             }
         }
 

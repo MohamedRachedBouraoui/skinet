@@ -26,6 +26,7 @@ namespace API.Extensions
 
             ConfigureServicesForDbContext(services);
             ConfigureServicesForRepositories(services);
+            ConfigureServicesForServices(services);
 
             ConfigureServicesForAutomapper(services);
 
@@ -42,6 +43,11 @@ namespace API.Extensions
             AddTokenCreatorServices(services);
 
             return services;
+        }
+
+        private static void ConfigureServicesForServices(IServiceCollection services)
+        {
+            services.AddScoped<IOrderService, OrderService>();
         }
 
         private static void AddTokenCreatorServices(IServiceCollection services)
@@ -109,8 +115,8 @@ namespace API.Extensions
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             services.AddScoped<IProductRepository, ProductRepository>();
-
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         private static void ConfigureServicesForDbContext(IServiceCollection services)
